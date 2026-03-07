@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Felicia</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial;
+background:black;
+color:white;
+text-align:center;
+overflow:hidden;
+}
+
+/* LOADING SCREEN */
+
+#loading{
+position:fixed;
+width:100%;
+height:100%;
+background:black;
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:40px;
+z-index:9999;
+}
+
+/* main content */
+
+#main{
+display:none;
+padding-top:40px;
+}
+
+/* stars */
+
+.star{
+position:fixed;
+width:2px;
+height:2px;
+background:white;
+animation:twinkle 3s infinite;
+}
+
+@keyframes twinkle{
+0%{opacity:0.2}
+50%{opacity:1}
+100%{opacity:0.2}
+}
+
+/* text */
+
+.text{
+max-width:700px;
+margin:auto;
+font-size:20px;
+line-height:1.7;
+padding:20px;
+}
+
+/* cake */
+
+.cake{
+font-size:150px;
+cursor:pointer;
+transition:.3s;
+}
+
+.cake:hover{
+transform:scale(1.2) rotate(8deg);
+}
+
+/* slideshow */
+
+.gallery img{
+width:300px;
+height:300px;
+border-radius:20px;
+object-fit:cover;
+box-shadow:0 10px 40px rgba(0,0,0,.8);
+}
+
+/* emoji */
+
+.emoji{
+position:fixed;
+font-size:30px;
+animation:fall 5s linear infinite;
+}
+
+@keyframes fall{
+0%{transform:translateY(-10vh)}
+100%{transform:translateY(110vh)}
+}
+
+/* hearts */
+
+.heart{
+position:fixed;
+font-size:25px;
+animation:float 6s linear infinite;
+}
+
+@keyframes float{
+0%{transform:translateY(100vh)}
+100%{transform:translateY(-10vh)}
+}
+
+button{
+padding:12px 25px;
+font-size:16px;
+border:none;
+border-radius:10px;
+cursor:pointer;
+margin-top:20px;
+}
+
+canvas{
+position:fixed;
+top:0;
+left:0;
+pointer-events:none;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- LOADING -->
+
+<div id="loading">
+Loading Felicia...
+</div>
+
+<!-- MAIN WEBSITE -->
+
+<div id="main">
+
+<div class="text">
+Hari ini adalah hari spesial karena seseorang yang luar biasa lahir ke dunia.
+
+Terima kasih sudah menjadi teman yang selalu membawa tawa,
+cerita seru, dan kenangan yang tidak terlupakan.
+
+Semoga di umur yang baru ini hidupmu dipenuhi kebahagiaan,
+keberuntungan, dan mimpi yang menjadi kenyataan.
+
+Selamat ulang tahun Felicia! 🥳
+</div>
+
+<div class="cake" onclick="celebrate()">🎂</div>
+
+<button onclick="celebrate()">Mulai Pesta 🎉</button>
+<button onclick="toggleMusic()">🎵 Play / Pause Music</button>
+
+<div class="gallery">
+<img id="slide" src="foto1.jpg">
+</div>
+
+</div>
+
+<audio id="music" loop preload="auto">
+<source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<canvas id="fire"></canvas>
+
+<script>
+
+/* LOADING */
+
+setTimeout(()=>{
+
+document.getElementById("loading").style.display="none"
+document.getElementById("main").style.display="block"
+
+},3000)
+
+/* stars */
+
+for(let i=0;i<400;i++){
+
+let star=document.createElement("div")
+star.className="star"
+
+star.style.top=Math.random()*100+"vh"
+star.style.left=Math.random()*100+"vw"
+
+document.body.appendChild(star)
+
+}
+
+/* slideshow */
+
+let photos=["foto1.jpg","foto2.jpg","foto3.jpg"]
+let index=0
+
+setInterval(()=>{
+
+index++
+if(index>=photos.length) index=0
+
+document.getElementById("slide").src=photos[index]
+
+},3000)
+
+/* music */
+
+let music=document.getElementById("music")
+
+function playMusic(){
+music.play().catch(()=>{})
+}
+
+function toggleMusic(){
+
+if(music.paused){
+music.play()
+}else{
+music.pause()
+}
+
+}
+
+/* celebrate */
+
+function celebrate(){
+
+playMusic()
+emojiRain()
+hearts()
+fireworks()
+
+}
+
+/* emoji */
+
+function emojiRain(){
+
+let emojis=["🎉","🎊","🥳","✨","🎂","😄"]
+
+for(let i=0;i<100;i++){
+
+let e=document.createElement("div")
+e.className="emoji"
+
+e.innerHTML=emojis[Math.floor(Math.random()*emojis.length)]
+
+e.style.left=Math.random()*100+"vw"
+e.style.animationDuration=(3+Math.random()*3)+"s"
+
+document.body.appendChild(e)
+
+setTimeout(()=>e.remove(),5000)
+
+}
+
+}
+
+/* hearts */
+
+function hearts(){
+
+for(let i=0;i<50;i++){
+
+let h=document.createElement("div")
+h.className="heart"
+
+h.innerHTML="💖"
+
+h.style.left=Math.random()*100+"vw"
+
+document.body.appendChild(h)
+
+setTimeout(()=>h.remove(),6000)
+
+}
+
+}
+
+/* fireworks */
+
+let canvas=document.getElementById("fire")
+let ctx=canvas.getContext("2d")
+
+canvas.width=window.innerWidth
+canvas.height=window.innerHeight
+
+let particles=[]
+
+function fireworks(){
+
+for(let i=0;i<350;i++){
+
+particles.push({
+
+x:canvas.width/2,
+y:canvas.height/2,
+vx:(Math.random()-0.5)*20,
+vy:(Math.random()-0.5)*20,
+life:100
+
+})
+
+}
+
+}
+
+function animate(){
+
+requestAnimationFrame(animate)
+
+ctx.clearRect(0,0,canvas.width,canvas.height)
+
+particles.forEach((p,i)=>{
+
+p.x+=p.vx
+p.y+=p.vy
+p.life--
+
+ctx.fillStyle="white"
+ctx.fillRect(p.x,p.y,3,3)
+
+if(p.life<=0){
+particles.splice(i,1)
+}
+
+})
+
+}
+
+animate()
+
+</script>
+
+</body>
+</html>
