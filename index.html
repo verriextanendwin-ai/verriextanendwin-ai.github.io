@@ -1,194 +1,202 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Verriex Portfolio</title>
 
 <style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial, sans-serif;
-}
 
 body{
-background:#0f0f0f;
+margin:0;
+font-family:Arial, sans-serif;
+background:linear-gradient(135deg,#ffb6d9,#ff69b4,#ff1493);
+overflow:hidden;
+text-align:center;
 color:white;
-overflow-x:hidden;
 }
 
-/* NAVBAR */
-nav{
+/* LOADING SCREEN */
+
+#loading{
 position:fixed;
 top:0;
+left:0;
 width:100%;
-background:rgba(0,0,0,0.6);
-backdrop-filter:blur(10px);
+height:100%;
+background:#ff1493;
 display:flex;
-justify-content:center;
-gap:40px;
-padding:15px;
-z-index:1000;
-}
-
-nav a{
-color:white;
-text-decoration:none;
-transition:0.3s;
-}
-
-nav a:hover{
-color:#00ffff;
-}
-
-/* SECTION */
-section{
-min-height:100vh;
-display:flex;
-flex-direction:column;
-justify-content:center;
 align-items:center;
-text-align:center;
-padding:100px 20px;
+justify-content:center;
+font-size:35px;
+z-index:9999;
 }
 
-/* HERO */
-h1{
-font-size:50px;
-background:linear-gradient(90deg,#00ffff,#ff00ff);
--webkit-background-clip:text;
-color:transparent;
-animation:fade 2s ease forwards;
+/* MAIN */
+
+#main{
+display:none;
+padding-top:80px;
 }
 
-p{
-margin-top:20px;
-font-size:18px;
-max-width:600px;
-opacity:0;
-animation:fade 3s ease forwards;
-}
+/* CAKE */
 
-/* BUTTON */
-button{
-margin-top:30px;
-padding:10px 25px;
-background:#00ffff;
-border:none;
-border-radius:20px;
+.cake{
+font-size:120px;
 cursor:pointer;
 transition:0.3s;
 }
 
-button:hover{
-transform:scale(1.1);
+.cake:hover{
+transform:scale(1.2);
 }
 
-/* PROJECT CARD */
-.card{
-background:#1c1c1c;
-padding:20px;
-margin:20px;
-border-radius:15px;
-transition:0.3s;
+/* EMOJI FALL */
+
+.emoji{
+position:fixed;
+font-size:30px;
+animation:fall linear forwards;
 }
 
-.card:hover{
-transform:translateY(-10px);
-} 
-  
-#tsparticles {
-position: fixed;
-width: 100%;
-height: 100%;
-z-index: -1;
-top: 0;
-left: 0;
+@keyframes fall{
+0%{transform:translateY(-10vh)}
+100%{transform:translateY(110vh)}
 }
-/* ANIMATION */
-@keyframes fade{
-from{opacity:0;transform:translateY(30px);}
-to{opacity:1;transform:translateY(0);}
+
+/* FIREWORK CANVAS */
+
+canvas{
+position:fixed;
+top:0;
+left:0;
+pointer-events:none;
 }
 
 </style>
 </head>
 
 <body>
-  
-<div id="tsparticles"></div>
-  
-<nav>
-<a href="#home">Home</a>
-<a href="#about">About</a>
-<a href="#projects">Projects</a>
-<a href="#contact">Contact</a>
-</nav>
 
-<section id="home">
-<h1>Verriex AI Portfolio</h1>
-<p>Welcome to my futuristic digital space. I build creative websites and interactive experiences.</p>
-<button onclick="scrollToSection('projects')">See My Work</button>
-</section>
+<!-- LOADING -->
 
-<section id="about">
-<h1>About Me</h1>
-<p>I am a young creator exploring web development, AI design, and digital creativity. This is my growing portfolio.</p>
-</section>
+<div id="loading">Loading Felicia...</div>
 
-<section id="projects">
-<h1>My Projects</h1>
+<!-- MAIN -->
 
-<div class="card">
-<h3>Mini Game</h3>
-<p>Simple interactive game built with JavaScript.</p>
+<div id="main">
+
+<div class="cake" onclick="celebrate()">🎂</div>
+
+<br><br>
+
+<button onclick="toggleMusic()">🎵 Music</button>
+
 </div>
 
-<div class="card">
-<h3>AI Website</h3>
-<p>Modern animated website with futuristic theme.</p>
-</div>
+<audio id="music" loop>
+<source src="music.mp3" type="audio/mpeg">
+</audio>
 
-</section>
-
-<section id="contact">
-<h1>Contact</h1>
-<p>Instagram: @yourusername</p>
-<p>Email: your@email.com</p>
-</section>
+<canvas id="fireworks"></canvas>
 
 <script>
-function scrollToSection(id){
-document.getElementById(id).scrollIntoView({behavior:"smooth"});
+
+/* LOADING */
+
+setTimeout(()=>{
+document.getElementById("loading").style.display="none"
+document.getElementById("main").style.display="block"
+},3000)
+
+/* MUSIC */
+
+let music=document.getElementById("music")
+
+function toggleMusic(){
+if(music.paused){
+music.play()
+}else{
+music.pause()
 }
-</script>
-<!-- PARTICLE BACKGROUND -->
-<script src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js"></script>
+}
 
-<script>
-tsParticles.load("tsparticles", {
-  background: {
-    color: "#0f0f0f"
-  },
-  particles: {
-    number: { value: 80 },
-    color: { value: "#00ffff" },
-    links: {
-      enable: true,
-      color: "#00ffff",
-      distance: 150
-    },
-    move: {
-      enable: true,
-      speed: 2
-    },
-    size: { value: 3 }
-  }
-});
+/* EMOJI PARTY */
+
+function celebrate(){
+
+let emojis=["🎉","🎂","💖","✨"]
+
+for(let i=0;i<60;i++){
+
+let e=document.createElement("div")
+e.className="emoji"
+e.innerHTML=emojis[Math.floor(Math.random()*emojis.length)]
+
+e.style.left=Math.random()*100+"vw"
+e.style.animationDuration=(3+Math.random()*3)+"s"
+
+document.body.appendChild(e)
+
+setTimeout(()=>e.remove(),6000)
+
+}
+
+fireworks()
+
+}
+
+/* FIREWORKS */
+
+let canvas=document.getElementById("fireworks")
+let ctx=canvas.getContext("2d")
+
+canvas.width=window.innerWidth
+canvas.height=window.innerHeight
+
+let particles=[]
+
+function fireworks(){
+
+for(let i=0;i<200;i++){
+
+particles.push({
+x:canvas.width/2,
+y:canvas.height/2,
+vx:(Math.random()-0.5)*14,
+vy:(Math.random()-0.5)*14,
+life:100
+})
+
+}
+
+}
+
+function animate(){
+
+requestAnimationFrame(animate)
+
+ctx.clearRect(0,0,canvas.width,canvas.height)
+
+particles.forEach((p,i)=>{
+
+p.x+=p.vx
+p.y+=p.vy
+p.life--
+
+ctx.fillStyle="white"
+ctx.fillRect(p.x,p.y,3,3)
+
+if(p.life<=0){
+particles.splice(i,1)
+}
+
+})
+
+}
+
+animate()
+
 </script>
+
 </body>
 </html>
-
-
