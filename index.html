@@ -2,17 +2,6 @@
 <html>
 <head>
 <meta charset="UTF-8">
-      <meta property="og:title" content="🎂 Happy Birthday Felicia 💖">
-<meta property="og:description" content="Website ulang tahun spesial penuh game, kue, dan kejutan untuk Felicia 🎉">
-<meta property="og:image" content="https://verriextanendwin.github.io/felicia-birthday/foto1.jpg">
-<meta property="og:url" content="https://verriextanendwin.github.io/felicia-birthday/">
-<meta property="og:type" content="website">
-
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="🎂 Happy Birthday Felicia 💖">
-<meta name="twitter:description" content="Website ulang tahun spesial untuk Felicia ✨">
-<meta name="twitter:image" content="https://verriextanendwin.github.io/felicia-birthday/foto1.jpg">
-<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Happy Birthday Felicia</title>
@@ -233,7 +222,7 @@ Semoga hari ini menjadi salah satu hari paling bahagia untukmu 💖
 <div class="cake" onclick="celebrate()">🎂</div>
 
 <div class="gallery">
-<img id="photo" src="foto1.jpeg">
+<img id="photo" src="foto1.jpg">
 </div>
 
 <div>
@@ -284,7 +273,7 @@ document.body.appendChild(star)
 
 /* slideshow */
 
-let photos=["foto1.jpeg","foto2.jpeg","foto3.jpeg","foto4.jpeg"]
+let photos=["foto1.jpg","foto2.jpg","foto3.jpg","foto4.jpg"]
 let i=0
 
 setInterval(()=>{
@@ -315,7 +304,7 @@ typing()
 
 }
 
-/* countdown ke 13 maret */
+/* countdown */
 
 function getNextBirthday(){
 
@@ -526,10 +515,44 @@ c.remove()
 
 }
 
+/* tambahan efek interaktif */
+
+document.addEventListener("click",(e)=>{
+
+for(let i=0;i<8;i++){
+
+let heart=document.createElement("div")
+heart.innerHTML="💖"
+heart.style.position="fixed"
+heart.style.left=e.clientX+"px"
+heart.style.top=e.clientY+"px"
+
+document.body.appendChild(heart)
+
+let vx=(Math.random()-0.5)*10
+let vy=(Math.random()-0.5)*10
+
+let life=40
+
+let anim=setInterval(()=>{
+
+heart.style.left=(heart.offsetLeft+vx)+"px"
+heart.style.top=(heart.offsetTop+vy)+"px"
+
+life--
+
+if(life<=0){
+clearInterval(anim)
+heart.remove()
+}
+
+},20)
+
+}
+
+})
+
 </script>
 
 </body>
 </html>
-
-
-
